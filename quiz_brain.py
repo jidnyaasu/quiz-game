@@ -11,7 +11,9 @@ class QuizBrain:
     def next_question(self):
         current_question = self.question_list[self.question_number]
         self.question_number += 1
-        answer = input(f"Q.{self.question_number}: {current_question.text} (True/False)?: ")
+        answer = input(f"Q.{self.question_number}: {current_question.text}\nOptions : A) {current_question.options[0]}"
+                       f" B) {current_question.options[1]} C) {current_question.options[2]}"
+                       f" D) {current_question.options[3]}\nAnswer: ")
         self.check_answer(answer, current_question.answer)
 
     def check_answer(self, answer, correct_answer):
