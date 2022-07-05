@@ -1,3 +1,6 @@
+import html
+
+
 class QuizBrain:
 
     def __init__(self, question_list):
@@ -11,15 +14,17 @@ class QuizBrain:
     def next_question(self):
         current_question = self.question_list[self.question_number]
         self.question_number += 1
-        answer = input(f"Q.{self.question_number}: {current_question.text}\nOptions : A) {current_question.options[0]}"
-                       f" B) {current_question.options[1]} C) {current_question.options[2]}"
-                       f" D) {current_question.options[3]}\nAnswer: ")
-        self.check_answer(answer, current_question.answer)
+        answer = input(f"Q.{self.question_number}: {html.unescape(current_question.text)}\nOptions :"
+                       f" A) {current_question.options['A']}"
+                       f" B) {current_question.options['B']} C) {current_question.options['C']}"
+                       f" D) {current_question.options['D']}\nAnswer: ").upper()
+        self.check_answer(current_question.options[answer], current_question.answer)
 
     def check_answer(self, answer, correct_answer):
-        if answer.lower() == correct_answer.lower():
+        if answer == correct_answer:
             print("Correct!")
             self.score += 1
         else:
             print("Wrong!")
+            print(f"Correct answer is: {correct_answer}")
         print(f"Your current score is: {self.score}/{self.question_number}")
