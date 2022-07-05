@@ -14,17 +14,22 @@ class QuizBrain:
     def next_question(self):
         current_question = self.question_list[self.question_number]
         self.question_number += 1
-        answer = input(f"Q.{self.question_number}: {html.unescape(current_question.text)}\nOptions :"
-                       f" A) {current_question.options['A']}"
-                       f" B) {current_question.options['B']} C) {current_question.options['C']}"
-                       f" D) {current_question.options['D']}\nAnswer: ").upper()
-        self.check_answer(current_question.options[answer], current_question.answer)
+        user_answer = input(f"Q.{self.question_number}: {html.unescape(current_question.text)}"
+                            f"\nA) {html.unescape(current_question.options['A'])}"
+                            f"\nB) {html.unescape(current_question.options['B'])}"
+                            f"\nC) {html.unescape(current_question.options['C'])}"
+                            f"\nD) {html.unescape(current_question.options['D'])}\nAnswer: ").upper()
+        try:
+            self.check_answer(current_question.options[user_answer], current_question.answer)
+        except KeyError:
+            self.check_answer("", current_question.answer)
 
-    def check_answer(self, answer, correct_answer):
-        if answer == correct_answer:
+    def check_answer(self, user_answer, correct_answer):
+        if user_answer == correct_answer:
             print("Correct!")
             self.score += 1
         else:
             print("Wrong!")
-            print(f"Correct answer is: {correct_answer}")
+            print(f"Correct answer is: {html.unescape(correct_answer)}")
         print(f"Your current score is: {self.score}/{self.question_number}")
+        print()
