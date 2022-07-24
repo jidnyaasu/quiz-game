@@ -1,6 +1,5 @@
 import requests
 import random
-from time import sleep
 from question_model import Question
 from quiz_brain import QuizBrain
 
@@ -25,4 +24,3 @@ while quiz.still_has_questions():
 else:
     print("\n\nQuiz finished!")
     print(f"Your final score was {quiz.score}/{quiz.question_number}")
-    sleep(5)
