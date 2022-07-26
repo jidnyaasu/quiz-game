@@ -7,29 +7,19 @@ class QuizBrain:
         self.question_number = 0
         self.score = 0
         self.question_list = question_list
+        self.current_question = None
 
     def still_has_questions(self):
         return self.question_number < len(self.question_list)
 
     def next_question(self):
-        current_question = self.question_list[self.question_number]
+        self.current_question = self.question_list[self.question_number]
         self.question_number += 1
-        user_answer = input(f"Q.{self.question_number}: {html.unescape(current_question.text)}"
-                            f"\nA) {html.unescape(current_question.options['A'])}"
-                            f"\nB) {html.unescape(current_question.options['B'])}"
-                            f"\nC) {html.unescape(current_question.options['C'])}"
-                            f"\nD) {html.unescape(current_question.options['D'])}\nAnswer: ").upper()
-        try:
-            self.check_answer(current_question.options[user_answer], current_question.answer)
-        except KeyError:
-            self.check_answer("", current_question.answer)
+        q_text = html.unescape(self.current_question.question_text)
+        return f"Q:{self.question_number}: {q_text}"
 
-    def check_answer(self, user_answer, correct_answer):
-        if user_answer == correct_answer:
-            print("Correct!")
+    def check_answer(self, user_answer):
+        if user_answer == self.current_question.answer:
             self.score += 1
-        else:
-            print("Wrong!")
-            print(f"Correct answer is: {html.unescape(correct_answer)}")
-        print(f"Your current score is: {self.score}/{self.question_number}")
-        print()
+            return True
+        return False
